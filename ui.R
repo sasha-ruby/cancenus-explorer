@@ -13,6 +13,11 @@ shinyUI(fluidPage(
   
   tabsetPanel(
     tabPanel(
+      "All vectors",
+      tags$p("All census variables."),
+      dataTableOutput("c_dt_all")
+    ),
+    tabPanel(
       "Search vectors",
       tags$p("Search census variables by keyword."),
       sidebarLayout(

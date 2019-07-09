@@ -1,14 +1,6 @@
-
-
-# This is the server logic for a Shiny web application.
-# You can find out more about building applications with Shiny here:
-#
-# http://shiny.rstudio.com
-#
-
 library(shiny)
 
-shinyServer(function(input, output) {
+shinyServer(function(input, output, session) {
   # Search census vectors by keyword
   censusSearchDataset <- reactive({
     paste0('CA', substr(paste0(input$c_search_data_year), 3, 4))
@@ -37,6 +29,7 @@ shinyServer(function(input, output) {
       # select_(.dots = selectionMetricsDF$Metric),
       options = list(
         lengthChange = TRUE,
+        lengthMenu = c(25, 100, 1000, 5000, 10000),
         initComplete = JS(
           "
           function(settings, json) {
@@ -53,6 +46,27 @@ shinyServer(function(input, output) {
   
   allVectors <- reactive({
     list_census_vectors(censusSearchDataset(), use_cache = TRUE)
+  })
+  
+  observe({
+    output$c_dt_all = DT::renderDataTable(datatable(
+      allVectors(),
+      options = list(
+        lengthChange = TRUE,
+        lengthMenu = c(25, 100, 1000, 5000, 10000),
+        initComplete = JS(
+          "
+          function(settings, json) {
+          $(this.api().table().header()).css({
+          'background-color': 'rgba(0, 51, 102, 0.80)',
+          'border-bottom': '5px solid #fcba19',
+          'color': '#fff'
+          });
+          }"
+          )
+        )
+      )
+    )
   })
   
   # Search census data by vector
@@ -73,7 +87,6 @@ shinyServer(function(input, output) {
         regions = list(PR = "59"),
         vectors = input$c_search_vector,
         use_cache = TRUE,
-        api_key = "CensusMapper_f17c13c7fc5e60de7cdd341d5d4db866",
         labels = "short",
         geo_format = NA
       )
@@ -94,6 +107,7 @@ shinyServer(function(input, output) {
           dom = 'Blfrtip',
           buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
           lengthChange = TRUE,
+          lengthMenu = c(25, 100, 1000, 5000, 10000),
           initComplete = JS(
             "
             function(settings, json) {
