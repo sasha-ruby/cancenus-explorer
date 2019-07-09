@@ -27,20 +27,8 @@ shinyServer(function(input, output, session) {
       vectorsSearch,
       #%>%
       # select_(.dots = selectionMetricsDF$Metric),
-      options = list(
-        lengthChange = TRUE,
-        lengthMenu = c(25, 100, 1000, 5000, 10000),
-        initComplete = JS(
-          "
-          function(settings, json) {
-          $(this.api().table().header()).css({
-          'background-color': 'rgba(0, 51, 102, 0.80)',
-          'border-bottom': '5px solid #fcba19',
-          'color': '#fff'
-          });
-          }"
-          )
-        )
+      extensions = 'Buttons',
+      options = dtOptions
         ))
     })
   
@@ -51,20 +39,8 @@ shinyServer(function(input, output, session) {
   observe({
     output$c_dt_all = DT::renderDataTable(datatable(
       allVectors(),
-      options = list(
-        lengthChange = TRUE,
-        lengthMenu = c(25, 100, 1000, 5000, 10000),
-        initComplete = JS(
-          "
-          function(settings, json) {
-          $(this.api().table().header()).css({
-          'background-color': 'rgba(0, 51, 102, 0.80)',
-          'border-bottom': '5px solid #fcba19',
-          'color': '#fff'
-          });
-          }"
-          )
-        )
+      extensions = 'Buttons',
+      options = dtOptions
       )
     )
   })
@@ -101,24 +77,7 @@ shinyServer(function(input, output, session) {
         # select_(.dots = selectionMetricsDF$Metric),
         filter = 'bottom',
         extensions = 'Buttons',
-        options = list(
-          pageLength = 25,
-          autoWidth = TRUE,
-          dom = 'Blfrtip',
-          buttons = c('copy', 'csv', 'excel', 'pdf', 'print'),
-          lengthChange = TRUE,
-          lengthMenu = c(25, 100, 1000, 5000, 10000),
-          initComplete = JS(
-            "
-            function(settings, json) {
-            $(this.api().table().header()).css({
-            'background-color': 'rgba(0, 51, 102, 0.80)',
-            'border-bottom': '5px solid #fcba19',
-            'color': '#fff'
-            });
-            }"
-          )
-          )
+        options = dtOptions
           )
         )
     })
