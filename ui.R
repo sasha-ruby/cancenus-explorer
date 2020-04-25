@@ -25,8 +25,17 @@ shinyUI(fluidPage(
           width = 2,
           textInput("c_search_keyword", label = "Keyword", placeholder = "search term"),
           selectInput("c_search_year",
-                      "Period",
-                      c("2016", "2011", "2006"),
+                      "Dataset",
+                      c(
+                        "2016 Canada Census" = "CA16", 
+                        "2016 Canada Census xtab" = "CA16xSD", 
+                        "2011 Canada Census" = "CA11", 
+                        "2011 Canada Census xtab" = "CA11xSD", 
+                        "2006 Canada Census" = "CA06",
+                        "2006 Canada Census xtab" = "CA06xSD", 
+                        "2001 Canada Census" = "CA01",
+                        "2001 Canada Census xtab" = "CA01xSD"
+                      ),
                       multiple = FALSE),
           actionButton("c_search", "Search")
         ),
@@ -43,8 +52,17 @@ shinyUI(fluidPage(
           textInput("c_search_vector", label = "Variable", placeholder = "search variable"),
           selectInput(
             "c_search_data_year",
-            "Period",
-            c("2016", "2011", "2006"),
+            "Dataset",
+            c(
+              "2016 Canada Census" = "CA16", 
+              "2016 Canada Census xtab" = "CA16xSD", 
+              "2011 Canada Census" = "CA11", 
+              "2011 Canada Census xtab" = "CA11xSD", 
+              "2006 Canada Census" = "CA06",
+              "2006 Canada Census xtab" = "CA06xSD", 
+              "2001 Canada Census" = "CA01",
+              "2001 Canada Census xtab" = "CA01xSD"
+            ),
             multiple = FALSE
           ),
           selectInput(

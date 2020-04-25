@@ -3,16 +3,14 @@ library(shiny)
 shinyServer(function(input, output, session) {
   # Search census vectors by keyword
   censusSearchDataset <- reactive({
-    paste0('CA', substr(paste0(input$c_search_data_year), 3, 4))
+    input$c_search_data_year
   })
   
   observeEvent(input$c_search, {
     vectorsSearch <-
       search_census_vectors(
         input$c_search_keyword,
-        paste0('CA', substr(paste0(
-          input$c_search_year
-        ), 3, 4)),
+        input$c_search_year,
         type = "Total",
         use_cache = TRUE
       ) # %>%
@@ -33,7 +31,7 @@ shinyServer(function(input, output, session) {
     })
   
   allVectors <- reactive({
-    list_census_vectors(censusSearchDataset(), use_cache = TRUE)
+    list_census_vectors(censusSearchDataset(), use_cache = FALSE)
   })
   
   observe({
@@ -47,15 +45,6 @@ shinyServer(function(input, output, session) {
   
   # Search census data by vector
   observeEvent(input$c_search_data, {
-    vectorsSearch <-
-      search_census_vectors(
-        input$c_search_vector,
-        censusSearchDataset(),
-        type = "Total",
-        use_cache = TRUE
-      )  %>%
-      child_census_vectors(leaves_only = FALSE)
-    
     censusDataSearch <-
       get_census(
         censusSearchDataset(),
